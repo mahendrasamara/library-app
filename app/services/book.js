@@ -1,6 +1,9 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+const BOOKS_STORAGE_KEY = 'library.books';
+const LOANS_STORAGE_KEY = 'library.loans';
+
 export default class BookService extends Service {
   @tracked books = [];
   @tracked loans = [];
@@ -12,11 +15,23 @@ export default class BookService extends Service {
     }
 
     this.isLoading = true;
-    
+
     try {
+      const storedBooks = this.#readFromStorage(BOOKS_STORAGE_KEY);
+      const storedLoans = this.#readFromStorage(LOANS_STORAGE_KEY);
+
+      if (storedLoans) {
+        this.loans = storedLoans;
+      }
+
+      if (storedBooks) {
+        this.books = storedBooks;
+        return this.books;
+      }
 
       const { booksdata } = await import('../data/booksdata');
       this.books = booksdata.books;
+      this.#saveToStorage(BOOKS_STORAGE_KEY, this.books);
       return this.books;
 
     } catch (error) {
@@ -26,6 +41,25 @@ export default class BookService extends Service {
 
     } finally {
       this.isLoading = false;
+    }
+  }
+
+  // localStorage helpers
+  #readFromStorage(key) {
+    try {
+      const raw = window.localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (error) {
+      console.error(`Failed to read "${key}" from localStorage:`, error);
+      return null;
+    }
+  }
+
+  #saveToStorage(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(`Failed to save "${key}" to localStorage:`, error);
     }
   }
 
@@ -77,6 +111,9 @@ export default class BookService extends Service {
 
     this.loans = [...this.loans, loan];
 
+    this.#saveToStorage(BOOKS_STORAGE_KEY, this.books);
+    this.#saveToStorage(LOANS_STORAGE_KEY, this.loans);
+
     return loan;
   }
 
@@ -99,6 +136,9 @@ export default class BookService extends Service {
     });
 
     this.loans = this.loans.filter((loan) => loan.id !== loanId);
+
+    this.#saveToStorage(BOOKS_STORAGE_KEY, this.books);
+    this.#saveToStorage(LOANS_STORAGE_KEY, this.loans);
 
     return loan;
   }
