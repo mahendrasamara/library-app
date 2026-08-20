@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class BookService extends Service {
   @tracked books = [];
+  @tracked loans = [];
   @tracked isLoading = false;
 
   async loadBooks() {
@@ -47,9 +48,15 @@ export default class BookService extends Service {
     return this.books.filter(book => book.copies_available > 0);
   }
 
-  issueBook(isbn) {
+  issueBook(isbn, studentName) {
+    const bookToIssue = this.getBookByIsbn(isbn);
+
+    if (!bookToIssue || bookToIssue.copies_available <= 0) {
+      return null;
+    }
+
     this.books = this.books.map((book) => {
-      if (book.isbn === isbn && book.copies_available > 0) {
+      if (book.isbn === isbn) {
         return {
           ...book,
           copies_available: book.copies_available - 1,
@@ -58,11 +65,30 @@ export default class BookService extends Service {
 
       return book;
     });
+
+    const loan = {
+      id: `${isbn}-${Date.now()}`,
+      isbn,
+      title: bookToIssue.title,
+      author: bookToIssue.author,
+      studentName,
+      issuedAt: new Date().toLocaleDateString(),
+    };
+
+    this.loans = [...this.loans, loan];
+
+    return loan;
   }
 
-  collectBook(isbn) {
+  collectBook(loanId) {
+    const loan = this.loans.find((loan) => loan.id === loanId);
+
+    if (!loan) {
+      return null;
+    }
+
     this.books = this.books.map((book) => {
-      if (book.isbn === isbn && book.copies_available < book.copies_total) {
+      if (book.isbn === loan.isbn && book.copies_available < book.copies_total) {
         return {
           ...book,
           copies_available: book.copies_available + 1,
@@ -71,6 +97,10 @@ export default class BookService extends Service {
 
       return book;
     });
+
+    this.loans = this.loans.filter((loan) => loan.id !== loanId);
+
+    return loan;
   }
 
   searchBooks(query) {

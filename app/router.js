@@ -14,5 +14,9 @@ Router.map(function () {
     this.route('search');
   });
 
-  this.route('staff');
+  this.route('staff', function () {
+    this.route('books');
+    this.route('issue');
+    this.route('collect');
+  });
 });
