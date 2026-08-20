@@ -2,7 +2,6 @@
 import '../styles/student.css';
 import BookCard from '../components/book-card';
 import { pageTitle } from 'ember-page-title';
-import { LinkTo } from '@ember/routing';
 import { on } from '@ember/modifier';
 
 <template>
@@ -26,7 +25,8 @@ import { on } from '@ember/modifier';
             type="text" 
             placeholder="Search books..." 
             class="search-input"
-            {{on "keyup" @controller.handleQuickSearch}}
+            value={{@controller.searchQuery}}
+            {{on "input" @controller.handleQuickSearch}}
           />
           <span class="search-icon">🔍</span>
         </div>
@@ -39,44 +39,6 @@ import { on } from '@ember/modifier';
       </div>
     </div>
   </header>
-
-  {{!-- Student Navigation --}}
-  <nav class="student-nav">
-    <div class="nav-container">
-      <ul class="nav-menu">
-        <li class="nav-item">
-          <LinkTo @route="student" class="nav-link">
-            📊 Dashboard
-          </LinkTo>
-        </li>
-        <li class="nav-item">
-          <LinkTo @route="student" class="nav-link">
-            📚 Browse Books
-          </LinkTo>
-        </li>
-        <li class="nav-item">
-          <a href="#search" class="nav-link">
-            🔍 Advanced Search
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#borrowings" class="nav-link">
-            📖 My Borrowings
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#favorites" class="nav-link">
-            ❤️ Favorites
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#account" class="nav-link">
-            👤 My Account
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
 
   {{!-- Main Content --}}
   <main class="student-content">

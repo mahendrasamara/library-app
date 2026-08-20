@@ -101,43 +101,6 @@
 
 
 /* --------------------------------
-   Navigation
---------------------------------- */
-
-.student-nav {
-  background: #fff;
-  border-bottom: 1px solid #e6e6e6;
-}
-
-.nav-container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.nav-menu {
-  display: flex;
-  gap: 30px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-item {
-  padding: 15px 0;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: #6b6b6b;
-  font-size: 14px;
-}
-
-.nav-link:hover {
-  color: #000;
-}
-
-
-/* --------------------------------
    Main Content
 --------------------------------- */
 

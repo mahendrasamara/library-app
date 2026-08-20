@@ -2,11 +2,14 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class StudentController extends Controller {
   @service auth;  // ← Change from 'session' to 'auth'
   @service book;
   @service router;
+
+  @tracked searchQuery = '';
 
   get currentUser() {
     return this.auth.currentUser || { username: 'Student', name: 'Student' };
@@ -17,6 +20,10 @@ export default class StudentController extends Controller {
   }
 
   get books() {
+    if (this.searchQuery.trim()) {
+      return this.book.searchBooks(this.searchQuery);
+    }
+
     return this.book.books;
   }
 
@@ -28,9 +35,6 @@ export default class StudentController extends Controller {
 
   @action
   handleQuickSearch(event) {
-    const query = event.target.value;
-    if (query.length > 2) {
-      this.router.transitionTo('student.search', { queryParams: { q: query } });
-    }
+    this.searchQuery = event.target.value;
   }
 }
