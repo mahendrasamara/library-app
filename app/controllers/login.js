@@ -27,7 +27,7 @@ export default class LoginController extends Controller {
     try {
       const user = this.auth.login(this.username, this.password);
       this.errorMessage = '';
-      this.router.transitionTo(user.role === 'student' ? 'student' : 'librarian');
+      this.router.transitionTo(user.role === 'student' ? 'student' : 'staff');
     } catch (e) {
       this.errorMessage = 'Invalid username or password';
     }
