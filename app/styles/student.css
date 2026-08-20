@@ -1,0 +1,269 @@
+/* --------------------------------
+   Student Page - Medium Style
+--------------------------------- */
+
+.student-header {
+  border-bottom: 1px solid #e6e6e6;
+  background: #fff;
+}
+
+.header-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 30px;
+}
+
+.site-title {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #242424;
+}
+
+.user-greeting {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  color: #6b6b6b;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.quick-search {
+  position: relative;
+}
+
+.search-input {
+  width: 200px;
+  padding: 9px 35px 9px 14px;
+  border: 1px solid #d5d5d5;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+  background: #f9f9f9;
+}
+
+.search-input:focus {
+  border-color: #999;
+  background: #fff;
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 7px;
+  font-size: 15px;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.student-badge {
+  font-size: 12px;
+  color: #555;
+  background: #f2f2f2;
+  padding: 6px 10px;
+  border-radius: 15px;
+}
+
+.logout-btn {
+  border: none;
+  background: transparent;
+  color: #1a8917;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  color: #116b12;
+}
+
+
+/* --------------------------------
+   Navigation
+--------------------------------- */
+
+.student-nav {
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  padding: 15px 0;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #6b6b6b;
+  font-size: 14px;
+}
+
+.nav-link:hover {
+  color: #000;
+}
+
+
+/* --------------------------------
+   Main Content
+--------------------------------- */
+
+.student-content {
+  max-width: 1100px;
+  min-height: 600px;
+  margin: 0 auto;
+  padding: 50px 0;
+}
+
+
+/* --------------------------------
+   Footer
+--------------------------------- */
+
+.student-footer {
+  border-top: 1px solid #e6e6e6;
+  background: #fff;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 25px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.student-footer p {
+  margin: 0;
+  color: #757575;
+  font-size: 13px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: #757575;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.footer-links a:hover {
+  color: #000;
+}
+
+
+/* --------------------------------
+   General
+--------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #242424;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* --------------------------------
+   Books Section & Grid
+--------------------------------- */
+
+.books-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #242424;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.book-card {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 18px;
+  background: #fafafa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.book-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 6px 0;
+  color: #242424;
+}
+
+.book-author {
+  font-size: 13px;
+  color: #6b6b6b;
+  margin: 0 0 10px 0;
+}
+
+.book-info, .book-price {
+  font-size: 13px;
+  color: #444;
+  margin: 4px 0;
+}
+
+.book-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
