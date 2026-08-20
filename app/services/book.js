@@ -47,6 +47,32 @@ export default class BookService extends Service {
     return this.books.filter(book => book.copies_available > 0);
   }
 
+  issueBook(isbn) {
+    this.books = this.books.map((book) => {
+      if (book.isbn === isbn && book.copies_available > 0) {
+        return {
+          ...book,
+          copies_available: book.copies_available - 1,
+        };
+      }
+
+      return book;
+    });
+  }
+
+  collectBook(isbn) {
+    this.books = this.books.map((book) => {
+      if (book.isbn === isbn && book.copies_available < book.copies_total) {
+        return {
+          ...book,
+          copies_available: book.copies_available + 1,
+        };
+      }
+
+      return book;
+    });
+  }
+
   searchBooks(query) {
     const searchTerm = query.toLowerCase();
     return this.books.filter(book => 

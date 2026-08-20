@@ -1,0 +1,256 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #242424;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.staff-header {
+  border-bottom: 1px solid #e6e6e6;
+  background: #fff;
+}
+
+.staff-header-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.staff-title {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.staff-greeting {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: #6b6b6b;
+}
+
+.staff-logout-btn {
+  border: none;
+  background: transparent;
+  color: #1a8917;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.staff-logout-btn:hover {
+  color: #116b12;
+}
+
+.staff-content {
+  max-width: 1180px;
+  min-height: 650px;
+  margin: 0 auto;
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+.staff-section-header {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.staff-section-title,
+.staff-panel-title {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  color: #242424;
+}
+
+.staff-book-count {
+  font-size: 13px;
+  color: #6b6b6b;
+}
+
+.staff-books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.staff-book-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.staff-book-button:focus-visible {
+  outline: 2px solid #1a8917;
+  outline-offset: 3px;
+}
+
+.staff-action-panel {
+  position: sticky;
+  top: 24px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.selected-book-summary {
+  margin: 18px 0;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.selected-book-summary h3 {
+  margin: 0 0 6px 0;
+  font-size: 17px;
+}
+
+.selected-book-summary p,
+.selected-book-summary span {
+  display: block;
+  margin: 4px 0;
+  color: #555;
+  font-size: 13px;
+}
+
+.staff-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.staff-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d5d5d5;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.staff-input:focus {
+  border-color: #1a8917;
+}
+
+.staff-actions {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.staff-primary-btn,
+.staff-secondary-btn {
+  min-height: 40px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.staff-primary-btn {
+  border: 1px solid #1a8917;
+  background: #1a8917;
+  color: #fff;
+}
+
+.staff-secondary-btn {
+  border: 1px solid #cfcfcf;
+  background: #fff;
+  color: #242424;
+}
+
+.staff-primary-btn:disabled,
+.staff-secondary-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.staff-status {
+  margin: 14px 0 0 0;
+  color: #1a8917;
+  font-size: 13px;
+}
+
+.staff-empty {
+  margin: 0;
+  color: #757575;
+  font-size: 14px;
+}
+
+.book-card {
+  min-height: 170px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 18px;
+  background: #fafafa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.staff-book-button:hover .book-card {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.book-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 6px 0;
+  color: #242424;
+}
+
+.book-author {
+  font-size: 13px;
+  color: #6b6b6b;
+  margin: 0 0 10px 0;
+}
+
+.book-info,
+.book-price {
+  font-size: 13px;
+  color: #444;
+  margin: 4px 0;
+}
+
+.book-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .staff-header-container,
+  .staff-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .staff-content {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-action-panel {
+    position: static;
+  }
+}
