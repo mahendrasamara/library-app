@@ -36,22 +36,36 @@ export default class StaffCollectController extends Controller {
       groups.set(loan.studentName, [...existingLoans, loan]);
     });
 
-    return Array.from(groups, ([studentName, loans]) => ({ studentName, loans }));
+    return Array.from(groups, ([studentName, loans]) => ({
+      studentName,
+      loans: loans.map((loan) => this.#formatLoan(loan)),
+    }));
   }
 
   get bookLoans() {
     const searchTerm = this.bookSearch.trim().toLowerCase();
 
-    return this.book.loans.filter((loan) => {
-      if (!searchTerm) {
-        return true;
-      }
+    return this.book.loans
+      .filter((loan) => {
+        if (!searchTerm) {
+          return true;
+        }
 
-      return (
-        loan.title.toLowerCase().includes(searchTerm) ||
-        loan.author.toLowerCase().includes(searchTerm)
-      );
-    });
+        return (
+          loan.title.toLowerCase().includes(searchTerm) ||
+          loan.author.toLowerCase().includes(searchTerm)
+        );
+      })
+      .map((loan) => this.#formatLoan(loan));
+  }
+
+  #formatLoan(loan) {
+    const issuedAt =
+      typeof loan.issuedAt === 'number'
+        ? new Date(loan.issuedAt).toLocaleString()
+        : loan.issuedAt;
+
+    return { ...loan, issuedAt };
   }
 
   @action

@@ -11,10 +11,11 @@ export default class StaffIssueController extends Controller {
 
   @tracked isbn = null;
   @tracked studentName = '';
+  @tracked phoneNumber = '';
   @tracked statusMessage = '';
 
   get canIssueBook() {
-    return this.model?.copies_available > 0 && this.studentName.trim().length > 0;
+    return this.model?.copies_available > 0 && this.studentName.trim().length > 0 && this.phoneNumber.trim().length == 10;
   }
 
   get cannotIssueBook() {
@@ -27,6 +28,11 @@ export default class StaffIssueController extends Controller {
   }
 
   @action
+  updatePhoneNumber(event){
+    this.phoneNumber = event.target.value;
+  }
+
+  @action
   async issueBook() {
     if (!this.canIssueBook) {
       return;
@@ -35,6 +41,7 @@ export default class StaffIssueController extends Controller {
     const loan = this.book.issueBook(this.model.isbn, this.studentName.trim());
     this.statusMessage = `"${loan.title}" issued to ${loan.studentName}.`;
     this.studentName = '';
+    this.phoneNumber = '';
     await this.router.refresh();
   }
 }

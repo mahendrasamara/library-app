@@ -111,7 +111,7 @@ export default class BookService extends Service {
       title: bookToIssue.title,
       author: bookToIssue.author,
       studentName,
-      issuedAt: new Date().toLocaleDateString(),
+      issuedAt: new Date().toTemporalInstant().epochMilliseconds,
     };
 
     this.loans = [...this.loans, loan];

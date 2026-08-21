@@ -29,14 +29,12 @@ import BookCard from '../../components/book-card';
         </div>
 
         <label class="staff-label" for="issue-student-name">Student name</label>
-        <input
-          id="issue-student-name"
-          type="text"
-          class="staff-input"
-          placeholder="Enter student name"
-          value={{@controller.studentName}}
-          {{on "input" @controller.updateStudentName}}
-        />
+        <input class="staff-input" id="issue-student-name" type="text" 
+          placeholder="Enter student name" value={{@controller.studentName}}
+          {{on "input" @controller.updateStudentName}} />
+
+        <input class="staff-input"  type="text" placeholder="Enter student phone number" 
+        value={{@controller.phoneNumber}} {{on "input" @controller.updatePhoneNumber}}/>
 
         <div class="staff-actions">
           <button
