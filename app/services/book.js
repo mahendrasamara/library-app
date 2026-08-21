@@ -64,6 +64,11 @@ export default class BookService extends Service {
   }
 
   // Helper methods
+  async fetchBookByIsbn(isbn) {
+    await this.loadBooks();
+    return this.getBookByIsbn(isbn) ?? null;
+  }
+
   getBookByIsbn(isbn) {
     return this.books.find(book => book.isbn === isbn);
   }

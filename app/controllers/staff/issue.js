@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class StaffIssueController extends Controller {
   @service book;
+  @service router;
 
   queryParams = ['isbn'];
 
@@ -12,16 +13,8 @@ export default class StaffIssueController extends Controller {
   @tracked studentName = '';
   @tracked statusMessage = '';
 
-  get selectedBook() {
-    if (!this.isbn) {
-      return null;
-    }
-
-    return this.book.getBookByIsbn(this.isbn);
-  }
-
   get canIssueBook() {
-    return this.selectedBook?.copies_available > 0 && this.studentName.trim().length > 0;
+    return this.model?.copies_available > 0 && this.studentName.trim().length > 0;
   }
 
   get cannotIssueBook() {
@@ -34,13 +27,14 @@ export default class StaffIssueController extends Controller {
   }
 
   @action
-  issueBook() {
+  async issueBook() {
     if (!this.canIssueBook) {
       return;
     }
 
-    const loan = this.book.issueBook(this.selectedBook.isbn, this.studentName.trim());
+    const loan = this.book.issueBook(this.model.isbn, this.studentName.trim());
     this.statusMessage = `"${loan.title}" issued to ${loan.studentName}.`;
     this.studentName = '';
+    await this.router.refresh();
   }
 }

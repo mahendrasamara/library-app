@@ -7,24 +7,24 @@ import BookCard from '../../components/book-card';
   {{pageTitle "Issue Book - YourCollegeLibrary"}}
 
   <main class="staff-page staff-detail-layout">
-    {{#if @controller.selectedBook}}
+    {{#if @model}}
       <section>
         <div class="staff-section-header">
           <h2 class="staff-section-title">Selected Book</h2>
         </div>
 
-        <BookCard @book={{@controller.selectedBook}} />
+        <BookCard @book={{@model}} />
       </section>
 
       <section class="staff-action-panel">
         <h2 class="staff-panel-title">Issue Book</h2>
 
         <div class="selected-book-summary">
-          <h3>{{@controller.selectedBook.title}}</h3>
-          <p>By {{@controller.selectedBook.author}}</p>
+          <h3>{{@model.title}}</h3>
+          <p>By {{@model.author}}</p>
           <span>
-            Available: {{@controller.selectedBook.copies_available}} /
-            {{@controller.selectedBook.copies_total}}
+            Available: {{@model.copies_available}} /
+            {{@model.copies_total}}
           </span>
         </div>
 
