@@ -8,14 +8,7 @@ import BookCard from '../../components/book-card';
 
   <main class="staff-page staff-detail-layout">
     {{#if @model}}
-      <section>
-        <div class="staff-section-header">
-          <h2 class="staff-section-title">Selected Book</h2>
-        </div>
-
-        <BookCard @book={{@model}} />
-      </section>
-
+      
       <section class="staff-action-panel">
         <h2 class="staff-panel-title">Issue Book</h2>
 
