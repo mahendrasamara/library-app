@@ -7,8 +7,6 @@ export default class StaffCollectController extends Controller {
   @service book;
 
   @tracked viewMode = 'students';
-  @tracked studentSearch = '';
-  @tracked bookSearch = '';
   @tracked statusMessage = '';
 
   get isStudentView() {
@@ -32,14 +30,9 @@ export default class StaffCollectController extends Controller {
   }
 
   get studentGroups() {
-    const searchTerm = this.studentSearch.trim().toLowerCase();
     const groups = new Map();
 
     this.book.loans.forEach((loan) => {
-      if (searchTerm && !loan.studentName.toLowerCase().includes(searchTerm)) {
-        return;
-      }
-
       const existingLoans = groups.get(loan.studentName) || [];
       groups.set(loan.studentName, [...existingLoans, loan]);
     });
@@ -52,20 +45,7 @@ export default class StaffCollectController extends Controller {
   }
 
   get bookLoans() {
-    const searchTerm = this.bookSearch.trim().toLowerCase();
-
-    return this.book.loans
-      .filter((loan) => {
-        if (!searchTerm) {
-          return true;
-        }
-
-        return (
-          loan.title.toLowerCase().includes(searchTerm) ||
-          loan.author.toLowerCase().includes(searchTerm)
-        );
-      })
-      .map((loan) => this.#formatLoan(loan));
+    return this.book.loans.map((loan) => this.#formatLoan(loan));
   }
 
   #formatLoan(loan) {
@@ -91,16 +71,6 @@ export default class StaffCollectController extends Controller {
   showBooks() {
     this.viewMode = 'books';
     this.statusMessage = '';
-  }
-
-  @action
-  updateStudentSearch(event) {
-    this.studentSearch = event.target.value;
-  }
-
-  @action
-  updateBookSearch(event) {
-    this.bookSearch = event.target.value;
   }
 
   @action

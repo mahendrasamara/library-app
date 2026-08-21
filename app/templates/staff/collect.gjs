@@ -20,21 +20,12 @@ import { on } from '@ember/modifier';
     </section>
 
     <div class="staff-toolbar">
-      
       <div class="staff-toggle">
         <button type="button" class={{if @controller.isStudentView "staff-toggle-btn active" "staff-toggle-btn"}}
           {{on "click" @controller.showStudents}}> Students </button>
         <button type="button" class={{if @controller.isBookView "staff-toggle-btn active" "staff-toggle-btn"}}
           {{on "click" @controller.showBooks}}> Books </button>
       </div>
-
-      {{#if @controller.isStudentView}}
-        <input type="text" class="staff-search-input" placeholder="Search students..."
-          value={{@controller.studentSearch}} {{on "input" @controller.updateStudentSearch}} />
-      {{else}}
-        <input type="text" class="staff-search-input" placeholder="Search books..."
-          value={{@controller.bookSearch}} {{on "input" @controller.updateBookSearch}} />
-      {{/if}}
     </div>
 
     {{#if @controller.statusMessage}}
