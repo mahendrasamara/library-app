@@ -37,6 +37,24 @@ body {
   color: #6b6b6b;
 }
 
+.staff-fine-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #242424;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.staff-fine-summary span {
+  min-width: 142px;
+  padding: 8px 10px;
+  border: 1px solid #d5d5d5;
+  border-radius: 6px;
+  background: #fafafa;
+  text-align: center;
+}
+
 .staff-header-actions {
   display: flex;
   align-items: center;
@@ -389,6 +407,15 @@ body {
   .staff-loan-row {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .staff-fine-summary {
+    flex-wrap: wrap;
+  }
+
+  .staff-fine-summary span {
+    flex: 1 1 180px;
+    text-align: left;
   }
 
   .staff-header-actions {

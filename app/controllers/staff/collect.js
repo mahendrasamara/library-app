@@ -38,6 +38,7 @@ export default class StaffCollectController extends Controller {
 
     return Array.from(groups, ([studentName, loans]) => ({
       studentName,
+      fineAmount: loans.reduce((total, loan) => total + this.book.getFineAmount(loan), 0),
       loans: loans.map((loan) => this.#formatLoan(loan)),
     }));
   }
@@ -65,7 +66,11 @@ export default class StaffCollectController extends Controller {
         ? new Date(loan.issuedAt).toLocaleString()
         : loan.issuedAt;
 
-    return { ...loan, issuedAt };
+    const fineAmount = this.book.getFineAmount(loan);
+    const overdueMinutes = this.book.getOverdueMinutes(loan);
+    const fineLabel = fineAmount > 0 ? `Fine Rs. ${fineAmount}` : 'No fine';
+
+    return { ...loan, fineAmount, fineLabel, issuedAt, overdueMinutes };
   }
 
   @action
@@ -95,7 +100,7 @@ export default class StaffCollectController extends Controller {
     const collectedLoan = this.book.collectBook(loan.id);
 
     if (collectedLoan) {
-      this.statusMessage = `"${collectedLoan.title}" collected from ${collectedLoan.studentName}.`;
+      this.statusMessage = `"${collectedLoan.title}" collected from ${collectedLoan.studentName}. Fine collected: Rs. ${collectedLoan.fineAmount}.`;
     }
   }
 }

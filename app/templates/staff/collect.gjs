@@ -13,38 +13,19 @@ import { on } from '@ember/modifier';
 
     <div class="staff-toolbar">
       <div class="staff-toggle">
-        <button
-          type="button"
-          class={{if @controller.isStudentView "staff-toggle-btn active" "staff-toggle-btn"}}
-          {{on "click" @controller.showStudents}}
-        >
-          Students
-        </button>
-        <button
-          type="button"
-          class={{if @controller.isBookView "staff-toggle-btn active" "staff-toggle-btn"}}
-          {{on "click" @controller.showBooks}}
-        >
-          Books
-        </button>
+        <button type="button" class={{if @controller.isStudentView "staff-toggle-btn active" "staff-toggle-btn"}}
+          {{on "click" @controller.showStudents}}> Students </button>
+        <button type="button" class={{if @controller.isBookView "staff-toggle-btn active" "staff-toggle-btn"}}
+          {{on "click" @controller.showBooks}} > Books </button>
       </div>
 
       {{#if @controller.isStudentView}}
-        <input
-          type="text"
-          class="staff-search-input"
-          placeholder="Search students..."
-          value={{@controller.studentSearch}}
-          {{on "input" @controller.updateStudentSearch}}
-        />
+        <input type="text" class="staff-search-input" placeholder="Search students..."
+          value={{@controller.studentSearch}} {{on "input" @controller.updateStudentSearch}} />
       {{else}}
         <input
-          type="text"
-          class="staff-search-input"
-          placeholder="Search books..."
-          value={{@controller.bookSearch}}
-          {{on "input" @controller.updateBookSearch}}
-        />
+          type="text" class="staff-search-input" placeholder="Search books..." value={{@controller.bookSearch}}
+          {{on "input" @controller.updateBookSearch}} />
       {{/if}}
     </div>
 
@@ -58,20 +39,18 @@ import { on } from '@ember/modifier';
           <article class="staff-list-card">
             <div class="staff-list-card-header">
               <h3>{{group.studentName}}</h3>
-              <span>{{group.loans.length}} books</span>
+              <span>{{group.loans.length}} books · Fine Rs. {{group.fineAmount}}</span>
             </div>
 
             {{#each group.loans as |loan|}}
               <div class="staff-loan-row">
                 <div>
                   <strong>{{loan.title}}</strong>
-                  <span>By {{loan.author}} · Issued {{loan.issuedAt}}</span>
+                  <span>
+                    By {{loan.author}} · Issued {{loan.issuedAt}} · {{loan.fineLabel}}
+                  </span>
                 </div>
-                <button
-                  type="button"
-                  class="staff-secondary-btn"
-                  {{on "click" (fn @controller.collectLoan loan)}}
-                >
+                <button type="button" class="staff-secondary-btn" {{on "click" (fn @controller.collectLoan loan)}}>
                   Collect
                 </button>
               </div>
@@ -88,16 +67,11 @@ import { on } from '@ember/modifier';
             <div>
               <strong>{{loan.title}}</strong>
               <span>
-                {{loan.studentName}} · By {{loan.author}} · Issued {{loan.issuedAt}}
+                {{loan.studentName}} · By {{loan.author}} · Issued {{loan.issuedAt}} ·
+                {{loan.fineLabel}}
               </span>
             </div>
-            <button
-              type="button"
-              class="staff-secondary-btn"
-              {{on "click" (fn @controller.collectLoan loan)}}
-            >
-              Collect
-            </button>
+            <button type="button" class="staff-secondary-btn" {{on "click" (fn @controller.collectLoan loan)}} >Collect</button>
           </article>
         {{else}}
           <p class="staff-empty">No issued books found.</p>

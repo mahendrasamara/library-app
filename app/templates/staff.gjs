@@ -13,6 +13,11 @@ import '../styles/staff.css';
         <span class="staff-greeting">Welcome, {{@controller.currentUser.username}}!</span>
       </div>
 
+      <div class="staff-fine-summary" aria-label="Fine summary">
+        <span>Collected: Rs. {{@controller.collectedFineTotal}}</span>
+        <span>Yet to collect: Rs. {{@controller.pendingFineTotal}}</span>
+      </div>
+
       <div class="staff-header-actions">
         <LinkTo @route="staff.books" class="staff-nav-link">Books</LinkTo>
         <LinkTo @route="staff.issue" class="staff-nav-link">Issue</LinkTo>

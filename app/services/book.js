@@ -1,13 +1,36 @@
 import Service from '@ember/service';
+import { registerDestructor } from '@ember/destroyable';
 import { tracked } from '@glimmer/tracking';
 
 const BOOKS_STORAGE_KEY = 'library.books';
 const LOANS_STORAGE_KEY = 'library.loans';
+const COLLECTED_FINES_STORAGE_KEY = 'library.collected-fines';
+const FREE_FINE_MINUTES = 5;
+const FINE_PER_MINUTE = 1;
+const MINUTE_IN_MS = 60 * 1000;
 
 export default class BookService extends Service {
   @tracked books = [];
   @tracked loans = [];
+  @tracked collectedFineTotal = 0;
+  @tracked currentTime = Date.now();
   @tracked isLoading = false;
+
+  #fineTimer = null;
+
+  constructor() {
+    super(...arguments);
+
+    if (typeof window !== 'undefined') {
+      this.#fineTimer = window.setInterval(() => {
+        this.currentTime = Date.now();
+      }, MINUTE_IN_MS);
+
+      registerDestructor(this, () => {
+        window.clearInterval(this.#fineTimer);
+      });
+    }
+  }
 
   async loadBooks() {
     if (this.books.length > 0) {
@@ -19,9 +42,14 @@ export default class BookService extends Service {
     try {
       const storedBooks = this.#readFromStorage(BOOKS_STORAGE_KEY);
       const storedLoans = this.#readFromStorage(LOANS_STORAGE_KEY);
+      const storedCollectedFineTotal = this.#readFromStorage(COLLECTED_FINES_STORAGE_KEY);
 
       if (storedLoans) {
         this.loans = storedLoans;
+      }
+
+      if (typeof storedCollectedFineTotal === 'number') {
+        this.collectedFineTotal = storedCollectedFineTotal;
       }
 
       if (storedBooks) {
@@ -87,6 +115,34 @@ export default class BookService extends Service {
     return this.books.filter(book => book.copies_available > 0);
   }
 
+  get pendingFineTotal() {
+    return this.loans.reduce((total, loan) => {
+      return total + this.getFineAmount(loan);
+    }, 0);
+  }
+
+  getFineAmount(loan, now = this.currentTime) {
+    const issuedAt = Number(loan?.issuedAt);
+
+    if (!Number.isFinite(issuedAt)) {
+      return 0;
+    }
+
+    const overdueMs = now - issuedAt - FREE_FINE_MINUTES * MINUTE_IN_MS;
+
+    if (overdueMs <= 0) {
+      return 0;
+    }
+
+    return Math.ceil(overdueMs / MINUTE_IN_MS) * FINE_PER_MINUTE;
+  }
+
+  getOverdueMinutes(loan, now = this.currentTime) {
+    const fineAmount = this.getFineAmount(loan, now);
+
+    return fineAmount / FINE_PER_MINUTE;
+  }
+
   issueBook(isbn, studentName) {
     const bookToIssue = this.getBookByIsbn(isbn);
 
@@ -129,6 +185,8 @@ export default class BookService extends Service {
       return null;
     }
 
+    const fineAmount = this.getFineAmount(loan);
+
     this.books = this.books.map((book) => {
       if (book.isbn === loan.isbn && book.copies_available < book.copies_total) {
         return {
@@ -141,11 +199,13 @@ export default class BookService extends Service {
     });
 
     this.loans = this.loans.filter((loan) => loan.id !== loanId);
+    this.collectedFineTotal += fineAmount;
 
     this.#saveToStorage(BOOKS_STORAGE_KEY, this.books);
     this.#saveToStorage(LOANS_STORAGE_KEY, this.loans);
+    this.#saveToStorage(COLLECTED_FINES_STORAGE_KEY, this.collectedFineTotal);
 
-    return loan;
+    return { ...loan, fineAmount };
   }
 
   searchBooks(query) {
