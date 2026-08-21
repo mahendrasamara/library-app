@@ -104,22 +104,8 @@ export default class BookService extends Service {
     return this.books.find(book => book.isbn === isbn);
   }
 
-  getBooksByGenre(genreId) {
-    return this.books.filter(book => book.genre_id === genreId);
-  }
-
-  getBooksByAuthor(author) {
-    return this.books.filter(book => 
-      book.author.toLowerCase().includes(author.toLowerCase())
-    );
-  }
-
-  getAvailableBooks() {
-    return this.books.filter(book => book.copies_available > 0);
-  }
-
   get pendingFineTotal() {
-    // Formula: pending fine total = sum of fine amount for every active loan.
+    // pending fine total = sum of fine amount for every active loan.
     return this.loans.reduce((total, loan) => {
       return total + this.getFineAmount(loan);
     }, 0);
@@ -132,21 +118,21 @@ export default class BookService extends Service {
       return 0;
     }
 
-    // Formula: overdue milliseconds = current time - issued time - free minutes in milliseconds.
+    // overdue milliseconds = current time - issued time - free minutes in milliseconds.
     const overdueMs = now - issuedAt - FREE_FINE_MINUTES * MINUTE_IN_MS;
 
     if (overdueMs <= 0) {
       return 0;
     }
 
-    // Formula: fine amount = rounded-up overdue minutes * fine per minute.
+    // fine amount = rounded-up overdue minutes * fine per minute.
     return Math.ceil(overdueMs / MINUTE_IN_MS) * FINE_PER_MINUTE;
   }
 
   getOverdueMinutes(loan, now = this.currentTime) {
     const fineAmount = this.getFineAmount(loan, now);
 
-    // Formula: overdue minutes = fine amount / fine charged per minute.
+    // overdue minutes = fine amount / fine charged per minute.
     return fineAmount / FINE_PER_MINUTE;
   }
 
@@ -223,9 +209,24 @@ export default class BookService extends Service {
     );
   }
 
-  getBooksByPriceRange(min, max) {
-    return this.books.filter(book => 
-      book.price >= min && book.price <= max
-    );
-  }
+
+  // getBooksByGenre(genreId) {
+  //   return this.books.filter(book => book.genre_id === genreId);
+  // }
+
+  // getBooksByAuthor(author) {
+  //   return this.books.filter(book => 
+  //     book.author.toLowerCase().includes(author.toLowerCase())
+  //   );
+  // }
+
+  // getAvailableBooks() {
+  //   return this.books.filter(book => book.copies_available > 0);
+  // }
+
+  // getBooksByPriceRange(min, max) {
+  //   return this.books.filter(book => 
+  //     book.price >= min && book.price <= max
+  //   );
+  // }
 }
