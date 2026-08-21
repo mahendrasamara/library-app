@@ -2,17 +2,22 @@ import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
 import { tracked } from '@glimmer/tracking';
 
+// local storage keys
 const BOOKS_STORAGE_KEY = 'library.books';
 const LOANS_STORAGE_KEY = 'library.loans';
 const COLLECTED_FINES_STORAGE_KEY = 'library.collected-fines';
+
+// Static variables
 const FREE_FINE_MINUTES = 5;
 const FINE_PER_MINUTE = 1;
 const MINUTE_IN_MS = 60 * 1000;
 
 export default class BookService extends Service {
   @tracked books = [];
+
   @tracked loans = [];
   @tracked collectedFineTotal = 0;
+
   @tracked currentTime = Date.now();
   @tracked isLoading = false;
 

@@ -6,26 +6,34 @@ import { on } from '@ember/modifier';
   {{pageTitle "Collect Books - YourCollegeLibrary"}}
 
   <main class="staff-page">
-    <div class="staff-section-header">
-      <h2 class="staff-section-title">Collect Books</h2>
-      <span class="staff-book-count">{{@controller.activeLoansCount}} active loans</span>
-    </div>
+    <section class="staff-collection-overview">
+      <div>
+        <h2 class="staff-section-title">Collect Books</h2>
+        <span class="staff-book-count">Settle returns and fines</span>
+      </div>
+
+      <div class="collection-stats">
+        <span><strong>{{@controller.activeLoansCount}}</strong>Active loans</span>
+        <span><strong>{{@controller.overdueLoansCount}}</strong>With fine</span>
+        <span><strong>Rs. {{@controller.pendingFineTotal}}</strong>Pending fine</span>
+      </div>
+    </section>
 
     <div class="staff-toolbar">
+      
       <div class="staff-toggle">
         <button type="button" class={{if @controller.isStudentView "staff-toggle-btn active" "staff-toggle-btn"}}
           {{on "click" @controller.showStudents}}> Students </button>
         <button type="button" class={{if @controller.isBookView "staff-toggle-btn active" "staff-toggle-btn"}}
-          {{on "click" @controller.showBooks}} > Books </button>
+          {{on "click" @controller.showBooks}}> Books </button>
       </div>
 
       {{#if @controller.isStudentView}}
         <input type="text" class="staff-search-input" placeholder="Search students..."
           value={{@controller.studentSearch}} {{on "input" @controller.updateStudentSearch}} />
       {{else}}
-        <input
-          type="text" class="staff-search-input" placeholder="Search books..." value={{@controller.bookSearch}}
-          {{on "input" @controller.updateBookSearch}} />
+        <input type="text" class="staff-search-input" placeholder="Search books..."
+          value={{@controller.bookSearch}} {{on "input" @controller.updateBookSearch}} />
       {{/if}}
     </div>
 
@@ -37,22 +45,29 @@ import { on } from '@ember/modifier';
       <section class="staff-list">
         {{#each @controller.studentGroups as |group|}}
           <article class="staff-list-card">
+
             <div class="staff-list-card-header">
-              <h3>{{group.studentName}}</h3>
-              <span>{{group.loans.length}} books · Fine Rs. {{group.fineAmount}}</span>
+              <div>
+                <h3>{{group.studentName}}</h3>
+                <span>{{group.loans.length}} books issued</span>
+              </div>
+              <strong class="collection-total">Rs. {{group.fineAmount}}</strong>
             </div>
 
             {{#each group.loans as |loan|}}
               <div class="staff-loan-row">
-                <div>
+                
+                <div class="loan-copy">
                   <strong>{{loan.title}}</strong>
-                  <span>
-                    By {{loan.author}} · Issued {{loan.issuedAt}} · {{loan.fineLabel}}
-                  </span>
+                  <span>By {{loan.author}}</span>
+                  <span>Issued {{loan.issuedAt}}</span>
                 </div>
-                <button type="button" class="staff-secondary-btn" {{on "click" (fn @controller.collectLoan loan)}}>
-                  Collect
-                </button>
+
+                <div class="loan-actions">
+                  <span class={{if loan.fineAmount "fine-pill due" "fine-pill"}}>{{loan.fineLabel}}</span>
+                  <button type="button" class="staff-secondary-btn" {{on "click" (fn @controller.collectLoan loan)}}> Collect</button>
+                </div>
+
               </div>
             {{/each}}
           </article>
@@ -62,16 +77,20 @@ import { on } from '@ember/modifier';
       </section>
     {{else}}
       <section class="staff-list">
+
+        {{!-- Load all the loan books --}}
         {{#each @controller.bookLoans as |loan|}}
           <article class="staff-loan-row staff-list-card">
-            <div>
+            <div class="loan-copy">
               <strong>{{loan.title}}</strong>
-              <span>
-                {{loan.studentName}} · By {{loan.author}} · Issued {{loan.issuedAt}} ·
-                {{loan.fineLabel}}
-              </span>
+              <span>{{loan.studentName}} · By {{loan.author}}</span>
+              <span>Issued {{loan.issuedAt}}</span>
             </div>
-            <button type="button" class="staff-secondary-btn" {{on "click" (fn @controller.collectLoan loan)}} >Collect</button>
+            <div class="loan-actions">
+              <span class={{if loan.fineAmount "fine-pill due" "fine-pill"}}>{{loan.fineLabel}}</span>
+              <button type="button" class="staff-secondary-btn" 
+              {{on "click" (fn @controller.collectLoan loan)}}> Collect </button>
+            </div>
           </article>
         {{else}}
           <p class="staff-empty">No issued books found.</p>

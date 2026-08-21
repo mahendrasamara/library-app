@@ -23,6 +23,14 @@ export default class StaffCollectController extends Controller {
     return this.book.loans.length;
   }
 
+  get overdueLoansCount() {
+    return this.book.loans.filter((loan) => this.book.getFineAmount(loan) > 0).length;
+  }
+
+  get pendingFineTotal() {
+    return this.book.pendingFineTotal;
+  }
+
   get studentGroups() {
     const searchTerm = this.studentSearch.trim().toLowerCase();
     const groups = new Map();
@@ -68,7 +76,7 @@ export default class StaffCollectController extends Controller {
 
     const fineAmount = this.book.getFineAmount(loan);
     const overdueMinutes = this.book.getOverdueMinutes(loan);
-    const fineLabel = fineAmount > 0 ? `Fine Rs. ${fineAmount}` : 'No fine';
+    const fineLabel = fineAmount > 0 ? `Rs. ${fineAmount}` : 'No fine';
 
     return { ...loan, fineAmount, fineLabel, issuedAt, overdueMinutes };
   }

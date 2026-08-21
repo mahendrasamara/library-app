@@ -8,23 +8,23 @@ import BookCard from '../../components/book-card';
 
   <main class="staff-page">
     <section>
+      
       <div class="staff-section-header">
         <h2 class="staff-section-title">Books</h2>
         <span class="staff-book-count">{{@controller.books.length}} books</span>
       </div>
 
       <div class="staff-books-grid">
+
+        {{!-- Load all the books --}}
         {{#each @controller.books key="isbn" as |book|}}
-          <button
-            type="button"
-            class="staff-book-button"
-            {{on "click" (fn @controller.issueBook book)}}
-          >
+          <button type="button" class="staff-book-button" {{on "click" (fn @controller.issueBook book)}}>
             <BookCard @book={{book}} />
           </button>
         {{else}}
           <p class="staff-empty">No books found.</p>
         {{/each}}
+
       </div>
     </section>
   </main>
