@@ -1,6 +1,7 @@
 // app/templates/student.gjs
 import '../styles/student.css';
 import BookCard from '../components/book-card';
+import ProfileMenu from '../components/profile-menu';
 import { pageTitle } from 'ember-page-title';
 import { on } from '@ember/modifier';
 
@@ -32,9 +33,7 @@ import { on } from '@ember/modifier';
         </div>
         <div class="user-menu">
           <span class="badge student-badge">Student</span>
-          <button type="button" class="logout-btn" {{on "click" @controller.handleLogout}}>
-            Logout
-          </button>
+          <ProfileMenu @username={{@controller.currentUser.username}} @onLogout={{@controller.handleLogout}} />
         </div>
       </div>
     </div>

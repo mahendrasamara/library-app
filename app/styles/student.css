@@ -87,19 +87,6 @@
   border-radius: 15px;
 }
 
-.logout-btn {
-  border: none;
-  background: transparent;
-  color: #1a8917;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  color: #116b12;
-}
-
-
 /* --------------------------------
    Main Content
 --------------------------------- */

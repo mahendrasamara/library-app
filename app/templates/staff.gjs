@@ -1,6 +1,6 @@
 import { pageTitle } from 'ember-page-title';
 import { LinkTo } from '@ember/routing';
-import { on } from '@ember/modifier';
+import ProfileMenu from '../components/profile-menu';
 import '../styles/staff.css';
 
 <template>
@@ -23,9 +23,7 @@ import '../styles/staff.css';
         <LinkTo @route="staff.issue" class="staff-nav-link">Issue</LinkTo>
         <LinkTo @route="staff.collect" class="staff-nav-link">Collect</LinkTo>
 
-        <button type="button" class="staff-logout-btn" {{on "click" @controller.handleLogout}}>
-          Logout
-        </button>
+        <ProfileMenu @username={{@controller.currentUser.username}} @onLogout={{@controller.handleLogout}} />
       </div>
     </div>
   </header>
