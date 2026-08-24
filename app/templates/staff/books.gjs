@@ -2,6 +2,7 @@ import { pageTitle } from 'ember-page-title';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import BookCard from '../../components/book-card';
+import CatalogToolbar from '../../components/catalog-toolbar';
 
 <template>
   {{pageTitle "Staff Books - YourCollegeLibrary"}}
@@ -10,22 +11,41 @@ import BookCard from '../../components/book-card';
     <section>
       
       <div class="staff-section-header">
-        <h2 class="staff-section-title">Books</h2>
+        <h2 class="staff-section-title">Books Inventory</h2>
         <span class="staff-book-count">{{@controller.books.length}} books</span>
       </div>
+
+      {{!-- Catalog Toolbar --}}
+      <CatalogToolbar
+        @searchQuery={{@controller.searchQuery}}
+        @onSearch={{@controller.handleSearch}}
+        @selectedGenre={{@controller.selectedGenre}}
+        @availableGenres={{@controller.availableGenres}}
+        @onGenreChange={{@controller.handleGenreChange}}
+        @selectedYear={{@controller.selectedYear}}
+        @availableYears={{@controller.availableYears}}
+        @onYearChange={{@controller.handleYearChange}}
+        @sortBy={{@controller.sortBy}}
+        @onSortByChange={{@controller.handleSortBy}}
+        @sortOrder={{@controller.sortOrder}}
+        @onToggleSortOrder={{@controller.toggleSortOrder}}
+        @onReset={{@controller.resetFilters}}
+      />
 
       <div class="staff-books-grid">
 
         {{!-- Load all the books --}}
         {{#each @controller.books key="isbn" as |book|}}
           <button type="button" class="staff-book-button" {{on "click" (fn @controller.issueBook book)}}>
-            <BookCard @book={{book}} />
+            <BookCard @book={{book}} @genreMap={{@controller.genreMap}} />
           </button>
         {{else}}
-          <p class="staff-empty">No books found.</p>
+          <p class="staff-empty">No books found matching your criteria.</p>
         {{/each}}
+
 
       </div>
     </section>
   </main>
 </template>
+

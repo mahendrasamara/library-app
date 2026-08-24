@@ -1,9 +1,8 @@
-// app/templates/student.gjs
 import '../styles/student.css';
 import BookCard from '../components/book-card';
 import ProfileMenu from '../components/profile-menu';
+import CatalogToolbar from '../components/catalog-toolbar';
 import { pageTitle } from 'ember-page-title';
-import { on } from '@ember/modifier';
 
 <template>
   {{pageTitle "Student Dashboard - YourCollegeLibrary"}}
@@ -16,21 +15,10 @@ import { on } from '@ember/modifier';
         <div class="brand-text">
           <h1 class="site-title">YourCollegeLibrary</h1>
           <span class="user-greeting">Welcome, {{@controller.currentUser.username}}!</span>
-          {{!-- Or use: {{this.currentUser.name}} if you have a name field --}}
         </div>
       </div>
       
       <div class="header-actions">
-        <div class="quick-search">
-          <input 
-            type="text" 
-            placeholder="Search books..." 
-            class="search-input"
-            value={{@controller.searchQuery}}
-            {{on "input" @controller.handleQuickSearch}}
-          />
-          <span class="search-icon">🔍</span>
-        </div>
         <div class="user-menu">
           <span class="badge student-badge">Student</span>
           <ProfileMenu @username={{@controller.currentUser.username}} @onLogout={{@controller.handleLogout}} />
@@ -42,17 +30,40 @@ import { on } from '@ember/modifier';
   {{!-- Main Content --}}
   <main class="student-content">
     <div class="books-section">
-      <h2 class="section-title">Available Books</h2>
+      <div class="section-header-flex">
+        <h2 class="section-title">Available Books</h2>
+        <span class="books-count-badge">{{@controller.books.length}} books</span>
+      </div>
+
+      {{!-- Catalog Toolbar --}}
+      <CatalogToolbar
+        @searchQuery={{@controller.searchQuery}}
+        @onSearch={{@controller.handleQuickSearch}}
+        @selectedGenre={{@controller.selectedGenre}}
+        @availableGenres={{@controller.availableGenres}}
+        @onGenreChange={{@controller.handleGenreChange}}
+        @selectedYear={{@controller.selectedYear}}
+        @availableYears={{@controller.availableYears}}
+        @onYearChange={{@controller.handleYearChange}}
+        @sortBy={{@controller.sortBy}}
+        @onSortByChange={{@controller.handleSortBy}}
+        @sortOrder={{@controller.sortOrder}}
+        @onToggleSortOrder={{@controller.toggleSortOrder}}
+        @onReset={{@controller.resetFilters}}
+      />
+
       <div class="books-grid">
         {{#each @controller.books as |book|}}
-          <BookCard @book={{book}} />
+          <BookCard @book={{book}} @genreMap={{@controller.genreMap}} />
         {{else}}
-          <p class="no-books">No books found.</p>
+          <p class="no-books">No books found matching your criteria.</p>
         {{/each}}
       </div>
+
     </div>
     {{outlet}}
   </main>
+
 
   {{!-- Student Footer --}}
   <footer class="student-footer">

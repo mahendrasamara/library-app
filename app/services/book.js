@@ -14,6 +14,7 @@ const MINUTE_IN_MS = 60 * 1000;
 
 export default class BookService extends Service {
   @tracked books = [];
+  @tracked genres = [];
 
   @tracked loans = [];
   @tracked collectedFineTotal = 0;
@@ -36,6 +37,9 @@ export default class BookService extends Service {
   }
 
   async loadBooks() {
+    const { booksdata } = await import('../data/booksdata');
+    this.genres = booksdata.genres || [];
+
     if (this.books.length > 0) {
       return this.books;
     }
@@ -60,12 +64,12 @@ export default class BookService extends Service {
         return this.books;
       }
 
-      const { booksdata } = await import('../data/booksdata');
       this.books = booksdata.books;
       this.#saveToStorage(BOOKS_STORAGE_KEY, this.books);
       return this.books;
 
     } catch (error) {
+
 
       console.error('Failed to load books:', error);
       return [];
@@ -209,24 +213,76 @@ export default class BookService extends Service {
     );
   }
 
+  get availableYears() {
+    const years = new Set(this.books.map((b) => b.publication_year).filter(Boolean));
+    return Array.from(years).sort((a, b) => b - a); // Newest first
+  }
 
-  // getBooksByGenre(genreId) {
-  //   return this.books.filter(book => book.genre_id === genreId);
-  // }
+  get availableGenres() {
+    if (this.genres && this.genres.length > 0) {
+      return this.genres;
+    }
+    // Fallback: extract distinct genre_ids present in loaded books
+    const genreIds = new Set(this.books.map((b) => b.genre_id).filter(Boolean));
+    return Array.from(genreIds).sort((a, b) => a - b).map((id) => ({
+      id,
+      name: `Genre ${id}`,
+    }));
+  }
 
-  // getBooksByAuthor(author) {
-  //   return this.books.filter(book => 
-  //     book.author.toLowerCase().includes(author.toLowerCase())
-  //   );
-  // }
+  get genreMap() {
+    return Object.fromEntries(
+      this.availableGenres.map((g) => [g.id, g.name])
+    );
+  }
 
-  // getAvailableBooks() {
-  //   return this.books.filter(book => book.copies_available > 0);
-  // }
+  getFilteredAndSortedBooks({ searchQuery = '', genreId = '', publicationYear = '', sortBy = 'title', sortOrder = 'asc' } = {}) {
+    let result = [...this.books];
+    const map = this.genreMap;
 
-  // getBooksByPriceRange(min, max) {
-  //   return this.books.filter(book => 
-  //     book.price >= min && book.price <= max
-  //   );
-  // }
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (book) =>
+          book.title.toLowerCase().includes(query) ||
+          book.author.toLowerCase().includes(query)
+      );
+    }
+
+    // Filter by Genre ID
+    if (genreId) {
+      const gId = Number(genreId);
+      result = result.filter((book) => book.genre_id === gId);
+    }
+
+    // Filter by Publication Year
+    if (publicationYear) {
+      const year = Number(publicationYear);
+      result = result.filter((book) => book.publication_year === year);
+    }
+
+    // Sort books
+    result.sort((a, b) => {
+      let comparison = 0;
+
+      if (sortBy === 'title') {
+        comparison = a.title.localeCompare(b.title);
+      } else if (sortBy === 'author') {
+        comparison = a.author.localeCompare(b.author);
+      } else if (sortBy === 'publication_year') {
+        comparison = a.publication_year - b.publication_year;
+      } else if (sortBy === 'genre') {
+        const genreA = map[a.genre_id] || '';
+        const genreB = map[b.genre_id] || '';
+        comparison = genreA.localeCompare(genreB);
+      }
+
+      return sortOrder === 'desc' ? -comparison : comparison;
+    });
+
+    return result;
+  }
 }
+
+
