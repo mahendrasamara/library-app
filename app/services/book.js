@@ -207,7 +207,7 @@ export default class BookService extends Service {
 
   searchBooks(query) {
     const searchTerm = query.toLowerCase();
-    return this.books.filter(book => 
+    return this.books.filter(book =>
       book.title.toLowerCase().includes(searchTerm) ||
       book.author.toLowerCase().includes(searchTerm)
     );
@@ -215,7 +215,7 @@ export default class BookService extends Service {
 
   get availableYears() {
     const years = new Set(this.books.map((b) => b.publication_year).filter(Boolean));
-    return Array.from(years).sort((a, b) => b - a); // Newest first
+    return Array.from(years).sort((first, second) => second - first); // Newest first
   }
 
   get availableGenres() {
@@ -224,7 +224,7 @@ export default class BookService extends Service {
     }
     // Fallback: extract distinct genre_ids present in loaded books
     const genreIds = new Set(this.books.map((b) => b.genre_id).filter(Boolean));
-    return Array.from(genreIds).sort((a, b) => a - b).map((id) => ({
+    return Array.from(genreIds).sort((firstId, secondId) => firstId - secondId).map((id) => ({
       id,
       name: `Genre ${id}`,
     }));
@@ -283,6 +283,5 @@ export default class BookService extends Service {
 
     return result;
   }
+
 }
-
-
