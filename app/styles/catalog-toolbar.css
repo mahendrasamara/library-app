@@ -1,0 +1,132 @@
+/* Ember supports plain CSS out of the box. More info: https://cli.emberjs.com/release/advanced-use/stylesheets/ */
+
+/* Catalog Toolbar */
+.section-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.books-count-badge {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1976d2;
+    background: #e3f2fd;
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.catalog-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-group {
+    flex: 1 1 220px;
+}
+
+.toolbar-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.toolbar-input {
+    width: 100%;
+    padding: 7px 32px 7px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13px;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.toolbar-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.toolbar-select {
+    padding: 7px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13px;
+    background: #ffffff;
+    color: #1e293b;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.toolbar-select:focus {
+    border-color: #3b82f6;
+}
+
+.toolbar-btn {
+    padding: 7px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    background: #ffffff;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toolbar-btn:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.toggle-btn {
+    color: #2563eb;
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.toggle-btn:hover {
+    background: #dbeafe;
+}
+
+.reset-btn {
+    color: #dc2626;
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.reset-btn:hover {
+    background: #fee2e2;
+}
+
+.genre-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #4f46e5;
+    background: #eef2ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+}
