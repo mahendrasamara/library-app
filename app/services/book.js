@@ -205,15 +205,8 @@ export default class BookService extends Service {
     return { ...loan, fineAmount };
   }
 
-  searchBooks(query) {
-    const searchTerm = query.toLowerCase();
-    return this.books.filter(book =>
-      book.title.toLowerCase().includes(searchTerm) ||
-      book.author.toLowerCase().includes(searchTerm)
-    );
-  }
-
   get availableYears() {
+
     const years = new Set(this.books.map((b) => b.publication_year).filter(Boolean));
     return Array.from(years).sort((first, second) => second - first); // Newest first
   }

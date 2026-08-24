@@ -38,8 +38,9 @@ import { pageTitle } from 'ember-page-title';
       {{!-- Catalog Toolbar --}}
       <CatalogToolbar
         @searchQuery={{@controller.searchQuery}}
-        @onSearch={{@controller.handleQuickSearch}}
+        @onSearch={{@controller.handleSearch}}
         @selectedGenre={{@controller.selectedGenre}}
+
         @availableGenres={{@controller.availableGenres}}
         @onGenreChange={{@controller.handleGenreChange}}
         @selectedYear={{@controller.selectedYear}}
