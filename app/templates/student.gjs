@@ -1,8 +1,7 @@
 import '../styles/student.css';
-import BookCard from '../components/book-card';
 import ProfileMenu from '../components/profile-menu';
-import CatalogToolbar from '../components/catalog-toolbar';
 import { pageTitle } from 'ember-page-title';
+import { LinkTo } from '@ember/routing';
 
 <template>
   {{pageTitle "Student Dashboard - YourCollegeLibrary"}}
@@ -20,7 +19,8 @@ import { pageTitle } from 'ember-page-title';
       
       <div class="header-actions">
         <div class="user-menu">
-          <span class="badge student-badge">Student</span>
+          <LinkTo @route="student.books" class="student-nav-link">Library Books</LinkTo>
+          <LinkTo @route="student.borrowedbooks" class="student-nav-link">My Books</LinkTo>
           <ProfileMenu @username={{@controller.currentUser.username}} @onLogout={{@controller.handleLogout}} />
         </div>
       </div>
@@ -29,42 +29,8 @@ import { pageTitle } from 'ember-page-title';
 
   {{!-- Main Content --}}
   <main class="student-content">
-    <div class="books-section">
-      <div class="section-header-flex">
-        <h2 class="section-title">Available Books</h2>
-        <span class="books-count-badge">{{@controller.books.length}} books</span>
-      </div>
-
-      {{!-- Catalog Toolbar --}}
-      <CatalogToolbar
-        @searchQuery={{@controller.searchQuery}}
-        @onSearch={{@controller.handleSearch}}
-        @selectedGenre={{@controller.selectedGenre}}
-
-        @availableGenres={{@controller.availableGenres}}
-        @onGenreChange={{@controller.handleGenreChange}}
-        @selectedYear={{@controller.selectedYear}}
-        @availableYears={{@controller.availableYears}}
-        @onYearChange={{@controller.handleYearChange}}
-        @sortBy={{@controller.sortBy}}
-        @onSortByChange={{@controller.handleSortBy}}
-        @sortOrder={{@controller.sortOrder}}
-        @onToggleSortOrder={{@controller.toggleSortOrder}}
-        @onReset={{@controller.resetFilters}}
-      />
-
-      <div class="books-grid">
-        {{#each @controller.books as |book|}}
-          <BookCard @book={{book}} @genreMap={{@controller.genreMap}} />
-        {{else}}
-          <p class="no-books">No books found matching your criteria.</p>
-        {{/each}}
-      </div>
-
-    </div>
     {{outlet}}
   </main>
-
 
   {{!-- Student Footer --}}
   <footer class="student-footer">
