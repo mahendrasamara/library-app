@@ -6,7 +6,6 @@ import { pageTitle } from 'ember-page-title';
   <div class="books-section">
     <div class="section-header-flex">
       <h2 class="section-title">My Borrowed Books</h2>
-      <span class="books-count-badge">{{@controller.myLoans.length}} borrowed</span>
     </div>
 
     <div class="books-grid">

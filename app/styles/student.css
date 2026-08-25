@@ -121,7 +121,7 @@
 .student-nav-link:hover .nav-count-badge,
 .student-nav-link.active .nav-count-badge {
   background: #1a8917;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* --------------------------------
