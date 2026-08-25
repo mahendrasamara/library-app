@@ -1,0 +1,17 @@
+export const STUDENTS = [
+  { id: '1', username: 'student1', name: 'Alice Smith', phone: '9876543210' },
+  { id: '2', username: 'student2', name: 'Bob Jones', phone: '9876543211' },
+  { id: '3', username: 'student3', name: 'Charlie Brown', phone: '9876543212' },
+  { id: '4', username: 'student4', name: 'Diana Prince', phone: '9876543213' },
+  { id: '5', username: 'student5', name: 'Ethan Hunt', phone: '9876543214' },
+  { id: '6', username: 'student6', name: 'Fiona Gallagher', phone: '9876543215' },
+  { id: '7', username: 'student7', name: 'George Clark', phone: '9876543216' },
+  { id: '8', username: 'student8', name: 'Hannah Abbott', phone: '9876543217' },
+  { id: '9', username: 'student9', name: 'Ian Malcolm', phone: '9876543218' },
+  { id: '10', username: 'student10', name: 'Julia Roberts', phone: '9876543219' },
+  { id: '11', username: 'student11', name: 'Kevin Bacon', phone: '9876543220' },
+  { id: '12', username: 'student12', name: 'Laura Croft', phone: '9876543221' },
+  { id: '13', username: 'student13', name: 'Michael Scott', phone: '9876543222' },
+  { id: '14', username: 'student14', name: 'Nina Williams', phone: '9876543223' },
+  { id: '15', username: 'student15', name: 'Oscar Isaac', phone: '9876543224' },
+];

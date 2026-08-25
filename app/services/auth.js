@@ -1,10 +1,10 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { STUDENTS } from '../data/studentsdata';
 
-// Dummy users — swap for a real API call later
 const USERS = [
-  { username: 'student1', password: 'pass123', role: 'student' },
-  { username: 'librarian1', password: 'pass123', role: 'librarian' },
+  ...STUDENTS.map((s) => ({ ...s, password: 'pass123', role: 'student' })),
+  { username: 'librarian1', name: 'Librarian', password: 'pass123', role: 'librarian' },
 ];
 
 const AUTH_STORAGE_KEY = 'library-app-current-user';

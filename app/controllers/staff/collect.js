@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { STUDENTS } from '../../data/studentsdata';
 
 export default class StaffCollectController extends Controller {
   @service book;
@@ -37,11 +38,15 @@ export default class StaffCollectController extends Controller {
       groups.set(loan.studentName, [...existingLoans, loan]);
     });
 
-    return Array.from(groups, ([studentName, loans]) => ({
-      studentName,
-      fineAmount: loans.reduce((total, loan) => total + this.book.getFineAmount(loan), 0),
-      loans: loans.map((loan) => this.#formatLoan(loan)),
-    }));
+    return Array.from(groups, ([studentKey, loans]) => {
+      const studentObj = STUDENTS.find((s) => s.username === studentKey || s.name === studentKey);
+      const displayName = studentObj ? `${studentObj.name} (${studentObj.username})` : studentKey;
+      return {
+        studentName: displayName,
+        fineAmount: loans.reduce((total, loan) => total + this.book.getFineAmount(loan), 0),
+        loans: loans.map((loan) => this.#formatLoan(loan)),
+      };
+    });
   }
 
   get bookLoans() {

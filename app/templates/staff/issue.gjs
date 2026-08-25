@@ -1,7 +1,7 @@
 import { pageTitle } from 'ember-page-title';
 import { LinkTo } from '@ember/routing';
 import { on } from '@ember/modifier';
-import BookCard from '../../components/book-card';
+import { fn } from '@ember/helper';
 
 <template>
   {{pageTitle "Issue Book - YourCollegeLibrary"}}
@@ -21,15 +21,40 @@ import BookCard from '../../components/book-card';
           </span>
         </div>
 
-        <label class="staff-label" for="issue-student-name">Student name</label>
-        <input class="staff-input" id="issue-student-name" type="text" 
-          placeholder="Enter student name" value={{@controller.studentName}}
-          {{on "input" @controller.updateStudentName}} />
+        <label class="staff-label" for="issue-student-search">Search Student (Name or Phone)</label>
+        <div style="position: relative;">
+          <input
+            class="staff-input"
+            id="issue-student-search"
+            type="text"
+            placeholder="Type student name or phone number..."
+            value={{@controller.searchQuery}}
+            {{on "input" @controller.handleSearchInput}}
+          />
 
-        <input class="staff-input"  type="text" placeholder="Enter student phone number" 
-        value={{@controller.phoneNumber}} {{on "input" @controller.updatePhoneNumber}}/>
+          {{#if @controller.selectedStudent}}
+            <div class="selected-student-card" style="margin-top: 0.5rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong>{{@controller.selectedStudent.name}}</strong> ({{@controller.selectedStudent.username}})<br />
+                <span style="font-size: 0.85rem; color: #64748b;">Phone: {{@controller.selectedStudent.phone}}</span>
+              </div>
+              <button type="button" style="background: none; border: none; color: #ef4444; font-weight: 600; cursor: pointer;" {{on "click" @controller.clearSelection}}>Change</button>
+            </div>
+          {{else if @controller.searchQuery}}
+            <ul class="student-search-results" style="margin-top: 0.5rem; list-style: none; padding: 0; border: 1px solid #cbd5e1; border-radius: 6px; max-height: 180px; overflow-y: auto; background: #ffffff;">
+              {{#each @controller.filteredStudents as |student|}}
+                <li style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #f1f5f9; cursor: pointer; display: flex; justify-content: space-between;" {{on "click" (fn @controller.selectStudent student)}}>
+                  <span><strong>{{student.name}}</strong> ({{student.username}})</span>
+                  <span style="color: #64748b; font-size: 0.85rem;">{{student.phone}}</span>
+                </li>
+              {{else}}
+                <li style="padding: 0.5rem 0.75rem; color: #94a3b8;">No student found matching "{{@controller.searchQuery}}".</li>
+              {{/each}}
+            </ul>
+          {{/if}}
+        </div>
 
-        <div class="staff-actions">
+        <div class="staff-actions" style="margin-top: 1rem;">
           <button
             type="button"
             class="staff-primary-btn"

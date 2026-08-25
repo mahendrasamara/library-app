@@ -16,8 +16,14 @@ import { pageTitle } from 'ember-page-title';
             <h3 class="book-title">{{loan.title}}</h3>
             <p class="book-author">By {{loan.author}}</p>
           </div>
-          <div class="book-details" style="margin-top: 0.75rem; font-size: 0.875rem; color: #64748b;">
+          <div class="book-details" style="margin-top: 0.75rem; font-size: 0.875rem; color: #64748b; display: flex; flex-direction: column; gap: 0.25rem;">
             <p><strong>ISBN:</strong> {{loan.isbn}}</p>
+            <p><strong>Issued At:</strong> {{loan.issuedAt}}</p>
+            {{#if loan.fineAmount}}
+              <p style="color: #ef4444; font-weight: 600;"><strong>Fine Due:</strong> Rs. {{loan.fineAmount}}</p>
+            {{else}}
+              <p style="color: #10b981;"><strong>Status:</strong> Issued (No fine)</p>
+            {{/if}}
           </div>
         </div>
       {{else}}

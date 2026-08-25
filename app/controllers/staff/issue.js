@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { STUDENTS } from '../../data/studentsdata';
 
 export default class StaffIssueController extends Controller {
   @service book;
@@ -10,12 +11,26 @@ export default class StaffIssueController extends Controller {
   queryParams = ['isbn'];
 
   @tracked isbn = null;
-  @tracked studentName = '';
-  @tracked phoneNumber = '';
+  @tracked searchQuery = '';
+  @tracked selectedStudent = null;
   @tracked statusMessage = '';
 
+  get filteredStudents() {
+    const query = this.searchQuery.trim().toLowerCase();
+    if (!query) {
+      return [];
+    }
+
+    return STUDENTS.filter(
+      (s) =>
+        s.name.toLowerCase().includes(query) ||
+        s.phone.includes(query) ||
+        s.username.toLowerCase().includes(query)
+    );
+  }
+
   get canIssueBook() {
-    return this.model?.copies_available > 0 && this.studentName.trim().length > 0 && this.phoneNumber.trim().length == 10;
+    return this.model?.copies_available > 0 && this.selectedStudent !== null;
   }
 
   get cannotIssueBook() {
@@ -23,13 +38,21 @@ export default class StaffIssueController extends Controller {
   }
 
   @action
-  updateStudentName(event) {
-    this.studentName = event.target.value;
+  handleSearchInput(event) {
+    this.searchQuery = event.target.value;
+    this.selectedStudent = null;
   }
 
   @action
-  updatePhoneNumber(event){
-    this.phoneNumber = event.target.value;
+  selectStudent(student) {
+    this.selectedStudent = student;
+    this.searchQuery = `${student.name} (${student.phone})`;
+  }
+
+  @action
+  clearSelection() {
+    this.selectedStudent = null;
+    this.searchQuery = '';
   }
 
   @action
@@ -38,10 +61,10 @@ export default class StaffIssueController extends Controller {
       return;
     }
 
-    const loan = this.book.issueBook(this.model.isbn, this.studentName.trim());
-    this.statusMessage = `"${loan.title}" issued to ${loan.studentName}.`;
-    this.studentName = '';
-    this.phoneNumber = '';
+    const loan = this.book.issueBook(this.model.isbn, this.selectedStudent.username);
+    this.statusMessage = `"${loan.title}" issued to ${this.selectedStudent.name} (${this.selectedStudent.username}).`;
+    this.selectedStudent = null;
+    this.searchQuery = '';
     await this.router.refresh();
   }
 }
