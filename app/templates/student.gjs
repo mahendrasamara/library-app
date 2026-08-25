@@ -20,7 +20,10 @@ import { LinkTo } from '@ember/routing';
       <div class="header-actions">
         <div class="user-menu">
           <LinkTo @route="student.books" class="student-nav-link">Library Books</LinkTo>
-          <LinkTo @route="student.borrowedbooks" class="student-nav-link">My Books</LinkTo>
+          <LinkTo @route="student.borrowedbooks" class="student-nav-link">
+            My Books
+            <span class="nav-count-badge">{{@controller.myLoansCount}}</span>
+          </LinkTo>
           <ProfileMenu @username={{@controller.currentUser.username}} @onLogout={{@controller.handleLogout}} />
         </div>
       </div>

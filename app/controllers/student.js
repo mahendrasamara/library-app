@@ -14,9 +14,11 @@ export default class StudentController extends CatalogController {
     return this.auth.isAuthenticated;
   }
 
-  get myLoans() {
-    const username = this.currentUser?.username;
-    return this.book.loans.filter((loan) => loan.studentName === username);
+  get myLoansCount() {
+    const user = this.currentUser;
+    return this.book.loans.filter(
+      (loan) => loan.studentName === user?.username || loan.studentName === user?.name
+    ).length;
   }
 
   @action
@@ -25,5 +27,3 @@ export default class StudentController extends CatalogController {
     this.router.transitionTo('login');
   }
 }
-
-

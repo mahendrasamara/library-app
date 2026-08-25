@@ -87,6 +87,43 @@
   border-radius: 15px;
 }
 
+.student-nav-link {
+  padding: 8px 14px;
+  border: 1px solid #d5d5d5;
+  border-radius: 6px;
+  color: #242424;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.student-nav-link:hover,
+.student-nav-link.active {
+  border-color: #1a8917;
+  color: #1a8917;
+  background: #f4fbf4;
+}
+
+.nav-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #1e293b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.student-nav-link:hover .nav-count-badge,
+.student-nav-link.active .nav-count-badge {
+  background: #1a8917;
+  color: #ffffff;
+}
+
 /* --------------------------------
    Main Content
 --------------------------------- */

@@ -115,10 +115,10 @@ body {
 }
 
 .staff-detail-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 360px) minmax(320px, 1fr);
+  display: flex;
   gap: 28px;
   align-items: start;
+  justify-content: center;
 }
 
 .staff-section-header {
@@ -164,6 +164,7 @@ body {
 }
 
 .staff-action-panel {
+  min-width: 500px;
   border: 1px solid #e6e6e6;
   border-radius: 8px;
   padding: 20px;
@@ -475,10 +476,6 @@ body {
   }
 
   .collection-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .staff-detail-layout {
     grid-template-columns: 1fr;
   }
 
