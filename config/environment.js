@@ -4,7 +4,7 @@ module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'library-app',
     environment,
-    rootURL: '/',
+    rootURL: process.env.VITE_BASE || '/',
     locationType: 'history',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
